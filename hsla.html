@@ -1,0 +1,114 @@
+CTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>HSLA Color Picker</title>
+<style>
+#hslah i {
+display: inline-block;
+width: 1px;
+height: 20px;
+}
+#hslas, #hslal, #hslaa, #hslah {
+width: 361px;
+height: 20px;
+display: inline-block;
+}
+p, h1 {font-family:arial, helvetica, sans-serif;}
+</style>
+</head>
+
+<body>
+ <section>
+        <pre contenteditable>color:<b>hsla</b>(
+   <span class="hsl-value" id="hsl-h-value">328,</span>  <input id="hsl-h" type="range" min="0" max="360" value="328" onChange="changeHSL()">&nbsp;H&nbsp;&nbsp;<div id="hslah">blah</div>
+   <span class="hsl-value" id="hsl-s-value">100%,</span> <input id="hsl-s" type="range" min="0" max="100" value="100" onChange="changeHSL()">&nbsp;S&nbsp;&nbsp;<div id="hslas"></div>
+   <span class="hsl-value" id="hsl-l-value">44%, </span> <input id="hsl-l" type="range" min="0" max="100" value="44" onChange="changeHSL()">&nbsp;L&nbsp;&nbsp;<div id="hslal"></div>
+   <span class="hsl-value" id="hsl-a-value">1.00</span>	 <input id="hsl-a" type="range" min="0" max="100" value="100" onChange="changeHSL()">&nbsp;A&nbsp;&nbsp;<div id="hslaa"></div>
+);        </pre><h1 id="hsl-example" class="example" style="background-color:  hsla(328, 100%, 44%, 1); padding: 15px; color: #FFF; text-shadow: 2px 2px 2px rgba(0,0,0,0.4); font-size: 40px; font-weight: bold;text-align: center;"> HSLA Colors</h1>
+
+<script defer="">
+	var browserPrefix = getPrefix();		
+	function getPrefix() {
+		var myJS = document.getElementsByTagName('script')[0];
+		if('WebkitOpacity' in myJS.style) return 'webkit';
+		var regex = /^(Moz|Ms|O)(?=[A-Z])/;
+		for(var property in myJS.style) {
+			if(regex.test(property)) {
+				return property.match(regex)[0];
+			}
+		} 
+		return '';
+	}	
+			
+			
+			
+			
+			  function createHSLA(h, s, l, a){
+                var h = h || document.getElementById('hsl-h').value * 1.0;
+                var s = s || document.getElementById('hsl-s').value * 1.0;
+                var l = l || document.getElementById('hsl-l').value * 1.0;
+                var a = a ||document.getElementById('hsl-a').value * 1.0;
+				
+				var hslapicker = "";
+				for(var i=0; i <=360; i++){
+					hslapicker+= '<i style="background: hsla(' + i + ', ' + s + '%, ' + l + '%, ' + a +')"></i>';
+			    }
+			//	hslapicker+= '<i style="background: hsla(' + h + ', ' + s + '%, ' + l + '%, ' + a +')" class="big"></i>'
+				document.getElementById('hslah').innerHTML = hslapicker; 
+				
+				document.getElementById('hslas').style.background = 
+                    '-' + browserPrefix + '-linear-gradient(0deg, hsl('+h+', 0%, '+ l +'%) 0%, hsl('+h+', 100%, '+ l +'%) 100%)';
+					
+				document.getElementById('hslal').style.background = 
+                    '-' + browserPrefix + '-linear-gradient(0deg, hsla('+h+', '+ s +'%, 0%, 1) 0%, hsla('+h+', '+ s +'%, 50%, 1) 50%,  hsla('+h+', '+ s +'%, 100%, 1) 100%)';
+			document.getElementById('hslaa').style.background = 
+                    '-' + browserPrefix + '-linear-gradient(0deg, hsla('+h+', '+ s +'%, '+l+'%, 0) 0%, hsla('+h+', '+ s +'%, '+l+'%, 1) 100%)';		  }
+			  
+              function changeHSL() {
+                var h = document.getElementById('hsl-h').value * 1.0;
+                var s = document.getElementById('hsl-s').value * 1.0;
+                var l = document.getElementById('hsl-l').value * 1.0;
+                var a = document.getElementById('hsl-a').value * 1.0;
+				var hex = '';
+				
+				a = ((a < 1 && a > 0) ? a : a / 100).toFixed(2);
+                var el = document.getElementById('hsl-example');
+				if(a == 1){
+				var hsla = 'hsl(' + h + ', ' + s + '%, ' + l + '%)'
+				} else {
+				var hsla = 'hsla(' + h + ', ' + s + '%, ' + l + '%, ' + a + ')'	
+				}
+                el.style.backgroundColor = hsla;
+				var rgba = el.style.backgroundColor;
+				if(a == 1){ 
+					 hex = '<br/>' + colorToHex(rgba);
+				}
+				el.innerHTML = hsla + " <br/>" + rgba + hex;
+
+                document.getElementById('hsl-h-value').textContent = (h < 100)? h + ', ': h + ',';
+                document.getElementById('hsl-s-value').textContent = (s < 100)? s + '%, ': s + '%,';
+                document.getElementById('hsl-l-value').textContent = (l < 100)? l + '%, ': l + '%,';
+                document.getElementById('hsl-a-value').textContent = a + '';
+				createHSLA(h, s, l, a);
+              }
+			  
+			  function colorToHex(color) {
+				var digits = /(.*?)rgb\((\d+), (\d+), (\d+)\)/.exec(color);
+				
+				var red = parseInt(digits[2]);
+				var green = parseInt(digits[3]);
+				var blue = parseInt(digits[4]);
+				
+				var rgb = blue | (green << 8) | (red << 16);
+				return digits[1] + '#' + rgb.toString(16);
+			};
+
+              changeHSL();
+			  createHSLA();
+            </script>
+          </section>
+</body>
+</html>
+
+
