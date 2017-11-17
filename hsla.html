@@ -21,10 +21,10 @@ p, h1 {font-family:arial, helvetica, sans-serif;}
 <body>
  <section>
         <pre contenteditable>color:<b>hsla</b>(
-   <span class="hsl-value" id="hsl-h-value">328,</span>  <input id="hsl-h" type="range" min="0" max="360" value="328" onChange="colorChanger.changeHSL()">&nbsp;H&nbsp;&nbsp;<div id="hslah">blah</div>
-   <span class="hsl-value" id="hsl-s-value">100%,</span> <input id="hsl-s" type="range" min="0" max="100" value="100" onChange="colorChanger.changeHSL()">&nbsp;S&nbsp;&nbsp;<div id="hslas"></div>
-   <span class="hsl-value" id="hsl-l-value">44%, </span> <input id="hsl-l" type="range" min="0" max="100" value="44" onChange="colorChanger.changeHSL()">&nbsp;L&nbsp;&nbsp;<div id="hslal"></div>
-   <span class="hsl-value" id="hsl-a-value">1.00</span>	 <input id="hsl-a" type="range" min="0" max="100" value="100" onChange="colorChanger.changeHSL()">&nbsp;A&nbsp;&nbsp;<div id="hslaa"></div>
+   <span class="hsl-value" id="hsl-h-value">328,</span>  <input id="hsl-h" type="range" min="0" max="360" value="328">&nbsp;H&nbsp;&nbsp;<div id="hslah">blah</div>
+   <span class="hsl-value" id="hsl-s-value">100%,</span> <input id="hsl-s" type="range" min="0" max="100" value="100">&nbsp;S&nbsp;&nbsp;<div id="hslas"></div>
+   <span class="hsl-value" id="hsl-l-value">44%, </span> <input id="hsl-l" type="range" min="0" max="100" value="44">&nbsp;L&nbsp;&nbsp;<div id="hslal"></div>
+   <span class="hsl-value" id="hsl-a-value">1.00</span>	 <input id="hsl-a" type="range" min="0" max="100" value="100">&nbsp;A&nbsp;&nbsp;<div id="hslaa"></div>
 );        </pre><h1 id="hsl-example" class="example" style="background-color:  hsla(328, 100%, 44%, 1); padding: 15px; color: #FFF; text-shadow: 2px 2px 2px rgba(0,0,0,0.4); font-size: 40px; font-weight: bold;text-align: center;"> HSLA Colors</h1>
 
 <script>
@@ -35,6 +35,12 @@ var colorChanger = {
   		this.addEvents();
   },
   addEvents : function() {
+  	 var inputs = document.querySelectorAll('input');
+  	 for(var i = 0; i < inputs.length; i++){
+  	 	inputs[i].addEventListener('change', function() {
+  	 		colorChanger.changeHSL();
+  	 	}); 
+  	 }	
   },
   getEl : function(el) {
   	return document.getElementById(el);
