@@ -110,24 +110,39 @@ var colorChanger = {
 		var blue = parseInt(color[2]);
 		var trans;
 
-	switch (a * 1) { // force a to number
-		case 1: 
-			trans = '';
-			break;
-		case 0: 
-			trans = '00';
-			break;
-		default:
-			trans = parseInt(a * 256).toString(16);
-			if(trans.length == 1) {
-				trans = "0" + trans;
-			} else if (trans.length == 0) {
-				trans = "00";
+
+		//var rgb = blue | (green << 8) | (red << 16);
+		//console.log(rgb);
+		//rgb = rgb.toString(16);
+		return  ('#' + this.convertHex(red) + ' ' + this.convertHex(green) + ' ' + this.convertHex(blue) + ' ' + this.convertHex(a, true)).toUpperCase();
+	},
+
+	convertHex: function(a, alpha) {
+		var trans;
+
+		if(alpha) {
+			switch (a * 1) { // force a to number
+			case 1: 
+				trans = '';
+				break;
+			case 0: 
+				trans = '00';
+				break;
+			default:
+				trans = parseInt(a * 256).toString(16);
+				if(trans.length == 1) {
+					trans = "0" + trans;
+				} else if (trans.length == 0) {
+					trans = "00";
+				}
 			}
-		} 
-		var rgb = blue | (green << 8) | (red << 16);
-		rgb = rgb.toString(16);
-		return  ('#' + rgb + trans).toUpperCase();
+		} else {
+			trans = a.toString(16);
+			if(trans.length == 1) {
+				trans = '0' + trans;
+			}
+		}
+		return trans;
 	}
 };
 
